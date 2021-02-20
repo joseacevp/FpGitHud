@@ -7,6 +7,7 @@ package tema5db4o;
 
 import Modelo.Jefe;
 import Modelo.Secretario;
+import Utilidades.CrearJefe;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -41,10 +42,12 @@ public class Tema5DB4o {
         baseDatos.store(new Jefe("Elena", 10, 42, new Secretario("David", 19)));
         baseDatos.store(new Jefe("Miguel", 20, 45, new Secretario("Paula", 23)));
         baseDatos.store(new Jefe("Jesús", 9, 44, new Secretario("Rubén", 32)));
-
+        baseDatos.store(CrearJefe.crear());//llama metod para crear nuevo jefe con menu
+        
 //La información que se trata de representar para los Jefes es el nombre ,
         //numero de años en la empresas , la edad y el nombre y edad de su secretario
-        Jefe jefe = new Jefe(null, 3, 0, null);//devuelve los que tienen 3 años de antiguedad
+        
+        Jefe jefe = new Jefe();//devuelve los que tienen 3 años de antiguedad
         ObjectSet<Jefe> resultado = baseDatos.queryByExample(jefe);//da los datos de la consulta
         while (resultado.hasNext()) {
             System.out.println(resultado.next());
