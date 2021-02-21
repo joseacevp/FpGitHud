@@ -6,12 +6,18 @@
 package tema5db4o;
 
 import Modelo.Jefe;
-import Modelo.Secretario;
+import Utilidades.BorraDatosDB4o;
+import Utilidades.CambioSecretario;
+import Utilidades.ConectaDB4o;
+import Utilidades.ConsultaDB4o;
+import Utilidades.ConsultaTodoContenidoDB4o;
+import Utilidades.IngresaDatosInicialesEnDB4o;
 import Utilidades.CrearJefe;
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,41 +25,68 @@ import java.io.File;
  */
 public class Tema5DB4o {
 
-    /** 
+    /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        //La base de datos física es el fichero "BDJefes.db" almacenado en la
-        //carpeta ficheros del proyecto creado
-        //la base de datos se alojará el proyecto dentro  de la carpeta ficheros
-        File fichero = new File("Ficheros/BDJefes.db");
-        fichero.delete();//borra el fichero evitando duplicar datos
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        ObjectContainer baseDatos = Db4oEmbedded.openFile(fichero.getAbsolutePath());
+            System.out.println("Menu Principal:\n\n");
+            System.out.println("1.Rellenar la Base de Datos DB4o con datos por defecto.");
+            System.out.println("2.Añadir nuevos Jefes.");
+            System.out.println("3.Visualizar en pantalla  los jefes que tengan."
+                    + " más de una determinada edad años y tengan una experiencia\n"
+                    + " en la empresa. ");
+            System.out.println("4.Cambiar de secretario de un jefe indicado. ");
+            System.out.println("5.Borrar los jefes que llevan más de  tantos  años\n"
+                    + " en la empresa.");
+            System.out.println("6.Visualizar los datos de todos los jefes que, incluidos\n "
+                    + " los datos de su secretario.");
+            System.out.println("0.Salir");
 
-//almacena los datos de los jefes con sus secretarios en la base de datos
-        baseDatos.store(new Jefe("Nieves", 3, 45, new Secretario("Iván", 33)));
-        baseDatos.store(new Jefe("Jesús", 10, 50, new Secretario("Noelia", 31)));
-        baseDatos.store(new Jefe("Dolores", 15, 63, new Secretario("Sergio", 47)));
-        baseDatos.store(new Jefe("Vicki", 3, 45, null));  //no tiene secretario
-        baseDatos.store(new Jefe("Fátima", 25, 63, new Secretario("Lidia", 57)));
-        baseDatos.store(new Jefe("Juan Luís", 13, 25, null));  //no tiene secretario
-        baseDatos.store(new Jefe("Elena", 10, 42, new Secretario("David", 19)));
-        baseDatos.store(new Jefe("Miguel", 20, 45, new Secretario("Paula", 23)));
-        baseDatos.store(new Jefe("Jesús", 9, 44, new Secretario("Rubén", 32)));
-        baseDatos.store(CrearJefe.crear());//llama metod para crear nuevo jefe con menu
-        
-//La información que se trata de representar para los Jefes es el nombre ,
-        //numero de años en la empresas , la edad y el nombre y edad de su secretario
-        
-        Jefe jefe = new Jefe();//devuelve los que tienen 3 años de antiguedad
-        ObjectSet<Jefe> resultado = baseDatos.queryByExample(jefe);//da los datos de la consulta
-        while (resultado.hasNext()) {
-            System.out.println(resultado.next());
+            int i = Integer.parseInt(br.readLine());
+            while (i != 0) {
+                switch (i) {
+                    case 1:
+                        IngresaDatosInicialesEnDB4o.crearDB(ConectaDB4o.conecta());
+                        i = 0;
+                        break;
+                    case 2:
+                        CrearJefe.crear(ConectaDB4o.conecta());
+                        i = 0;
+                        break;
+                    case 3:
+                        ConsultaDB4o.consultar(ConectaDB4o.conecta());
+                        i = 0;
+                        break;
+                    case 4:
+                        Jefe jefeAcambiar = new Jefe();
+                        System.out.println("Nombre de Jefe:");
+                        jefeAcambiar.setNombre(br.readLine());
+                        CambioSecretario.cambiar(ConectaDB4o.conecta(),jefeAcambiar);
+                        i = 0;
+                        break;
+                    case 5:
+                        Jefe jefeAborrar = new Jefe();
+                        System.out.println("Antiguedad en la empresa de los Jefes"
+                                + " a borrar o 0 pra borrar todos los Jefes:");
+                        jefeAborrar.setAntiguedad(Integer.parseInt(br.readLine()));
+                        BorraDatosDB4o.borrar(ConectaDB4o.conecta(), jefeAborrar);
+                        i = 0;
+                        break;
+                    case 6:
+                        Jefe jefe = new Jefe();
+                        ConsultaTodoContenidoDB4o.consultaTodo(jefe, ConectaDB4o.conecta());
+                        i = 0;
+                        break;
 
+                }
+            }
+
+            //baseDatos.close();//cierrra la base de datos
+        } catch (IOException ex) {
+            System.out.println("FALLO " + ex);
         }
-
-        baseDatos.close();//cierrra la base de datos
     }
 }

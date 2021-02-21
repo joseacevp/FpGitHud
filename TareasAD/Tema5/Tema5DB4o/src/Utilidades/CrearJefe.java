@@ -7,11 +7,10 @@ package Utilidades;
 
 import Modelo.Jefe;
 import Modelo.Secretario;
+import com.db4o.ObjectContainer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class CrearJefe {
 
-    public static Jefe crear() {
+    public static Jefe crear(ObjectContainer baseDatos) {
         Jefe nuevoJefe = new Jefe();
         try {
 
@@ -39,7 +38,11 @@ public class CrearJefe {
             System.out.println("Indicar Edad Secretario/a:\n");
             secretario.setEdad(Integer.parseInt(br.readLine()));
             nuevoJefe.setSecretario(secretario);
-
+            
+            //añadir jefe a bd
+            baseDatos.store(nuevoJefe);
+            baseDatos.close();
+            
         } catch (IOException ex) {
             System.out.println("Fallo indicando datos.");
         }
