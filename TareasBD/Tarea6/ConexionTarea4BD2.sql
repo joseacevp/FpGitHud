@@ -22,7 +22,6 @@ exception
     when others then
         DBMS_OUTPUT.put_line('Error ');
         v_resultado:=false;
-       
 end;
 /
 
@@ -43,7 +42,6 @@ end;
 --2.    Función que devuelve todos los datos de un pedido a partir de su número (toda la fila de la tabla pedidos)
 create or replace function datosPedido(v_num_pedido pedidos.num%type)
     return pedidos%rowtype
-        
     as
         v_pedidos pedidos%rowtype;
     begin
@@ -192,5 +190,54 @@ end;
 --Queremos controlar algunas restricciones mediante  triggers: (debes crear dos disparadores, uno para cada ejercicio):
 --1.    Cada vez que se vaya a insertar o modificar una línea de un pedido debe de actualizarse correctamente el importe 
 --de la misma (cantidad X precio del producto).
+create or  replace trigger t_actualiza_importe_lineas
+before insert on lineas for each row
+
+declare
+    v_precio productos.precio%type;
+    v_producto lineas.producto%type;
+begin 
+    v_producto := :new.producto;
+    select precio into v_precio from productos where codigo=v_producto;
+    if :new.importe != v_precio * :new.cantidad then 
+        :new.importe := v_precio * :new.cantidad;
+    end if;
+end;
+/
+
+create or  replace trigger t_actualiza_importe_lineas2
+before update on lineas for each row
+
+declare
+    v_precio productos.precio%type;
+    v_producto lineas.producto%type;
+begin 
+    v_producto := :old.producto;
+    select precio into v_precio from productos where codigo=v_producto;
+    if :new.importe != v_precio * :new.cantidad then 
+        :new.importe := v_precio * :new.cantidad;
+    end if;
+end;
+/
+
+rollback;
+
+--2.    Cada vez que se inserten, se borren o modifiquen líneas hay que actualizar el importe del pedido correspondiente
+
+create or replace trigger t_actualizar_total_pedidos
+before insert or update or delete on lineas for each row
+declare 
+    v_num_pedido lineas.num_pedido%type;
+    v_importe lineas.importe%type;
+begin
+    v_num_pedido := :new.num_pedido;
+    v_importe := :old.importe;
+    
+    update  pedidos set total = v_importe + total where num = v_num_pedido;
+end;
+/
 
 
+
+
+commit
