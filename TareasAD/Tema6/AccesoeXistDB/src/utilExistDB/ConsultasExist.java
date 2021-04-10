@@ -5,6 +5,7 @@
  */
 package utilExistDB;
 
+import java.util.ArrayList;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
@@ -18,8 +19,8 @@ import org.xmldb.api.modules.XPathQueryService;
  */
 public class ConsultasExist {
 
-    public static String consultar(Collection coleccion, String consulta) {
-        String respuesta;
+    public static ArrayList consultar(Collection coleccion, String consulta) {
+        ArrayList<String> respuesta = new ArrayList<>();
 
         System.out.println("consulta:\n" + consulta);
         //ejecuta la consulta
@@ -43,10 +44,11 @@ public class ConsultasExist {
                 while (j.hasMoreResources()) {
                     Resource r = j.nextResource();
                     System.out.println((String) r.getContent());
-                    respuesta = (String) r.getContent();
-                   return respuesta;
+                    respuesta.add((String) r.getContent());
                 }
+
                 System.out.println("**********************************");
+                return respuesta;
             }
 
         } catch (XMLDBException ex) {
