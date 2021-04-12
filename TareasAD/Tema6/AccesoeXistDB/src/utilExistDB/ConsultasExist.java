@@ -6,6 +6,7 @@
 package utilExistDB;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
@@ -53,7 +54,7 @@ public class ConsultasExist {
 
         } catch (XMLDBException ex) {
             System.out.println(" HA OCURRIDO UN ERROR, REVISA LOS FICHEOS DE CONSULTAS.");
-            // Logger.getLogger(ConsultasExist.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "HA OCURRIDO UN ERROR, REVISA LOS FICHEOS DE CONSULTAS.");
         }
         return null;
 

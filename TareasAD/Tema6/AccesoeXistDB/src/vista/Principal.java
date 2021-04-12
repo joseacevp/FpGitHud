@@ -6,6 +6,7 @@
 package vista;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import org.xmldb.api.base.Collection;
 import utilExistDB.ConsultasExist;
 import utilExistDB.DriverExistDB;
@@ -117,19 +118,27 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        respuestaTextArea.setText("");//bnorra la area de testo 
         if (coleccion == null) {
             System.out.println("Colección vacía...");
+            JOptionPane.showMessageDialog(rootPane, "Colección vacía...", "error coleccion vacia", HEIGHT);//ensaje de error al consultar la base de datos
         } else {
             System.out.println("conectado");
         }
         ArrayList<String> respuesta = new ArrayList<>();
+        try {
 
-        respuesta = ConsultasExist.consultar(coleccion, consultaTextArea.getText());
-        for (String dato : respuesta) {
-            System.out.println(dato);
-            respuestaTextArea.append(dato);
+            respuesta = ConsultasExist.consultar(coleccion, consultaTextArea.getText());
+            for (String dato : respuesta) {
+                System.out.println(dato);
+                respuestaTextArea.append(dato);
+            }
+
+        } catch (Exception e) {
+            System.out.println("fallo al realizar la consulta");
+
         }
-      
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

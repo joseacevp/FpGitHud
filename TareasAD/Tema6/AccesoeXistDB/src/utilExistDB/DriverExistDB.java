@@ -6,14 +6,10 @@
 
 package utilExistDB;
 
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 //import org.exist.Database;
 //import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.*;
-import org.xmldb.api.modules.*;
 
 /**
  *
