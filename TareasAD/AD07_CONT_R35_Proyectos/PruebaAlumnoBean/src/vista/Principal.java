@@ -14,17 +14,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Principal extends javax.swing.JFrame {
 
+    PantallaAnadirAlumno anadir = new PantallaAnadirAlumno(this, rootPaneCheckingEnabled);
+
     /**
      *
      */
     public Principal() {
         initComponents();
-
         this.jTableAlumnos.setModel(modelo);
         this.modelo.addColumn("DNI");//estas son las cabeceras o columnas
         this.modelo.addColumn("Nombre");
         this.modelo.addColumn("Apellidos");
         this.modelo.addColumn("Direccion");
+        this.modelo.addColumn("Fecha Nacimiento");
     }
 
     /**
@@ -41,6 +43,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableAlumnos = new javax.swing.JTable();
         jButtonConsulta = new javax.swing.JButton();
+        jButtonAnadirAlumno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -75,23 +78,34 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButtonAnadirAlumno.setText("Añadir Alumno");
+        jButtonAnadirAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAnadirAlumnoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(panelPeronalizado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(173, 173, 173)))
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(203, 203, 203)
+                                .addComponent(panelPeronalizado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButtonConsulta)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonAnadirAlumno)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonConsulta)
-                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,9 +114,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(panelPeronalizado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jButtonConsulta)
-                .addGap(21, 21, 21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonConsulta)
+                    .addComponent(jButtonAnadirAlumno))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -110,19 +126,23 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButtonConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultaActionPerformed
         AlumnoBean alumnos = new AlumnoBean();
-
+        
         try {
             for (int i = 0; i < 100; i++) {
                 alumnos.seleccionarFila(i);
                 // crea un objeto y lo aloja en la fila "Row" con los datos de las areas de texto
                 modelo.addRow(new Object[]{alumnos.getDNI(), alumnos.getNombre(),
-                    alumnos.getApellidos(), alumnos.getDireccion()});
+                    alumnos.getApellidos(), alumnos.getDireccion(), alumnos.getFechaNac()});
             }
         } catch (Exception e) {
             System.out.println("fin linea");
         }
 
     }//GEN-LAST:event_jButtonConsultaActionPerformed
+
+    private void jButtonAnadirAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirAlumnoActionPerformed
+        anadir.setVisible(true);
+    }//GEN-LAST:event_jButtonAnadirAlumnoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,6 +181,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAnadirAlumno;
     private javax.swing.JButton jButtonConsulta;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableAlumnos;

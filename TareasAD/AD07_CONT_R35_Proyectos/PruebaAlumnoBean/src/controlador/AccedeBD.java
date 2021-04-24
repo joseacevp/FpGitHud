@@ -2,33 +2,32 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controlador;
+
 import Alumno.AlumnoBean;
 import Alumno.AlumnoBean.BDModificadaEvent;
 import Alumno.AlumnoBean.BDModificadaListener;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author usuario
  */
-public class AccedeBD implements BDModificadaListener{
+public class AccedeBD implements BDModificadaListener {
 
     AlumnoBean alumnos;
-    
-    AccedeBD()
-    {
-         alumnos = new AlumnoBean();
-         alumnos.addBDModificadaListener( (BDModificadaListener)this );
+
+    AccedeBD() {
+        alumnos = new AlumnoBean();
+        alumnos.addBDModificadaListener((BDModificadaListener) this);
     }
 
-    public void listado()
-    {
+    public void listado() {
         try {
-            
+
             for (int i = 0; i < 100; i++) {
                 alumnos.seleccionarFila(i);
                 System.out.println("Alumno " + i + "\n\tDNI:" + alumnos.getDNI());
@@ -42,8 +41,7 @@ public class AccedeBD implements BDModificadaListener{
         }
     }
 
-    void anade()
-    {
+    void anade() {
         alumnos.setDNI("98765433A");
         alumnos.setNombre("Asunción");
         alumnos.setApellidos("de las Heras López");
@@ -52,12 +50,11 @@ public class AccedeBD implements BDModificadaListener{
         try {
             alumnos.addAlumno();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AccedeBD.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(AccedeBD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void capturarBDModificada(BDModificadaEvent ev)
-    {
+    public void capturarBDModificada(BDModificadaEvent ev) {
         System.out.println("Se ha añadido un elemento a la base de datos");
     }
 }
