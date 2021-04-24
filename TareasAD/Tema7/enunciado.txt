@@ -1,0 +1,57 @@
+fecha de entrega maxima:  5/05/2021
+
+
+Enunciado. 
+Los chicos de BK están aprendiendo a hacer componentes de acceso a datos. Están practicando con los datos de la matrícula de los alumnos de la base de datos con la que has estado trabajando durante esta unidad y necesitan que les eches una mano.
+
+Esta unidad, creación de componentes visuales ya es la última. Llegado a este punto ya hemos trabajado con diversas tecnologías para el acceso a los datos.  En esta tarea vamos a tener alguna experiencia sobre cómo usar componentes visuales propios en nuestras aplicaciones.
+
+A partir del ejemplo que se va refiriendo en el apartado 11 de la unidad, sobre alumnos. (Aparece completa para su descarga en el apartado 11.8. Esta está en modo texto).  Se pide rediseñar a modo gráfico y  ponerla en funcionamiento dicha aplicación. La base de datos a utilizar será Oracle como en temas anteriores. Se creará un usuario AD07 con contraseña AD07. Operaciones a realizar:
+
+
+1. Buscar en internet algún un componente visual y agregarlo a nuestra paleta de herramientas para su uso en la aplicación.
+Nota. Se puede buscar y descargar JCalendar que es un componente muy común. Este se puede utilizar a la hora de entrar la fecha de nacimiento del alumno.
+
+2. Crear un nuevo componente visual a partir de un componente ya existen, personaliza su comportamiento. Agregarlo también a la paleta de herramientas. 
+Nota. Se puede crear un JPanel propio. Ver el ejemplo que se comenta en  los enlaces que se indican en el foro. En estos se personaliza un JPanel para poder ponerle una imagen de fondo y establecer su opacidad a través de dos propiedades. Este se puede utilizar en el JFrame del proyecto
+
+3. Rediseñar la aplicación a modo gráfico. Elementos a incorporar:
+
+Un JFrame. En este se puede establecer el panel personalizado creado en el punto 2.
+Un JTable para mostrar los datos de los alumnos.
+Un botón que consulte y  muestre los alumnos  en el componente en el JTable 
+Un botón que  lleve a un JDialog y que permita añadir nuevos alumnos. El campo fecha nacimiento hará uso del componente JCalendar agregado en el punto 1
+Los mensajes resultantes de la gestión del evento capturado. Se mostrarán en un componente JOptionPane
+Adaptar la aplicación ejemplo a una base de datos Oracle. Crear usuario, tablas y datos de prueba. 
+En esta tarea  realmente serán crear dos  proyectos, uno:  AlumnoBean y otro:  AppAlumnos que hará uso del anterior.  No olvides construir el proyecto AlumnoBean (Esto es, generar el archivo .jar en la carpeta dist del proyecto AlumnoBean)  e insertar dicho .jar en las bibliotecas del proyecto de AppAlumnos. Cada cambio que se haga en AlumnoBean se debe refrescar en AppAlukmnos.
+
+Un punto EXTRA.  Se puede crear y añadir un botón personalizado que al posicionarse encima del botón este cambie de color.
+
+Criterios de puntuación. Total 10 puntos.
+Apartado 1:  2 puntos.
+Apartado 2:  2 puntos.
+Apartado 3:  6 puntos. Un punto cada subapartado.
+Recursos necesarios para realizar la Tarea.
+No necesitas recursos adicionales para realizar esta tarea.
+Consejos y recomendaciones.
+Repasa y pon en funcionamiento la aplicación visto en la unidad en en apartado 11. 
+
+No olvides construir el proyecto e insertar el archivo .jar que se construye en las bibliotecas del proyecto de prueba.
+
+Indicaciones de entrega.
+Una vez realizada la tarea tendrás que comprimir los archivos que has generado y subirlos a la plataforma. La estructura de archivos a entregar dentro del archivo comprimido es como sigue:
+
+Un directorio llamado leeme donde incluyas un archivo de texto con las observaciones que le quieras hacer al profesor o profesora.
+Un directorio llamado proyectos en el que incluyas:
+Documento de ejecución. Incluir volcado de pantalla en donde se muestre la paleta con los componentes creados
+Script sql  con el código de creación de usuario, permisos, tabla  y datos de prueba.
+El proyecto NetBeans con el componente: AlumnoBean
+El proyecto NetBeans de aplicación de los  componente: AppAlumnos
+El envío se realizará a través de la plataforma de la forma establecida para ello, y el archivo se nombrará siguiendo las siguientes pautas:
+
+apellido1_apellido2_nombre_SIGxx_Tarea
+
+
+Asegúrate que el nombre no contenga la letra ñ, tildes ni caracteres especiales extraños. Así por ejemplo la alumna Begoña Sánchez Mañas para la séptima unidad del MP de AD, debería nombrar esta tarea como...
+
+sanchez_manas_begona_AD07_Tarea

@@ -3,12 +3,11 @@
  * and open the template in the editor.
  */
 
-package pruebaalumnobean;
+package controlador;
 import Alumno.AlumnoBean;
 import Alumno.AlumnoBean.BDModificadaEvent;
 import Alumno.AlumnoBean.BDModificadaListener;
 import java.sql.Date;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

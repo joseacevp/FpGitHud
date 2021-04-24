@@ -2,9 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package controlador;
 
-package pruebaalumnobean;
 import Alumno.AlumnoBean;
+import controlador.AccedeBD;
+import vista.Principal;
 
 /**
  *
@@ -16,11 +18,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Principal pantallaPrincipal = new Principal();
+        pantallaPrincipal.setVisible(true);
         AccedeBD gestion = new AccedeBD();
-         
+
         //gestion.anade();
-       gestion.listado();
+        gestion.listado();
     }
 
 }
