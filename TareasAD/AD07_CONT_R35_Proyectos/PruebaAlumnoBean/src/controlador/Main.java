@@ -4,7 +4,6 @@
  */
 package controlador;
 
-import Alumno.AlumnoBean;
 import controlador.AccedeBD;
 import vista.Principal;
 
@@ -20,8 +19,9 @@ public class Main {
     public static void main(String[] args) {
         Principal pantallaPrincipal = new Principal();
         pantallaPrincipal.setVisible(true);
+        
         AccedeBD gestion = new AccedeBD();
-
+        
         //gestion.anade();
         gestion.listado();
     }

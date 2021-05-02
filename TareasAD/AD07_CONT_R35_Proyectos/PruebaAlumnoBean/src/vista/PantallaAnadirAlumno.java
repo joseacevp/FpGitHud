@@ -6,17 +6,23 @@
 package vista;
 
 import Alumno.AlumnoBean;
-import java.awt.HeadlessException;
+import controlador.AccedeBD;
 import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Jose Antonio Acevedo Paredes
  */
-public class PantallaAnadirAlumno extends javax.swing.JDialog {
+public class PantallaAnadirAlumno extends javax.swing.JDialog implements AlumnoBean.BDModificadaListener {
+
+    AlumnoBean alumnos;
+
+    PantallaAnadirAlumno() {
+        alumnos = new AlumnoBean();
+        alumnos.addBDModificadaListener((AlumnoBean.BDModificadaListener) this);
+    }
 
     /**
      * Creates new form PantallaAnadirAlumno
@@ -41,13 +47,13 @@ public class PantallaAnadirAlumno extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jTextFieldDni = new javax.swing.JTextField();
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldApellidos = new javax.swing.JTextField();
         jTextFieldDireccion = new javax.swing.JTextField();
-        jTextFieldFechaNac = new javax.swing.JTextField();
         jButtonGrabarAlumno = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jDateFechaNac = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -75,14 +81,14 @@ public class PantallaAnadirAlumno extends javax.swing.JDialog {
 
         jLabel5.setText("Dirección:");
 
-        jLabel6.setText("Fecha Nacimiento:");
-
         jButtonGrabarAlumno.setText("Grabar");
         jButtonGrabarAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGrabarAlumnoActionPerformed(evt);
             }
         });
+
+        jLabel6.setText("Fecha Nacimiento");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,24 +99,26 @@ public class PantallaAnadirAlumno extends javax.swing.JDialog {
                 .addComponent(panelPeronalizado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonGrabarAlumno)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextFieldFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldDni, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButtonGrabarAlumno)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jTextFieldDni, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                                        .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                                        .addComponent(jTextFieldApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                                        .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                                        .addComponent(jDateFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                    .addComponent(jLabel6))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -137,40 +145,52 @@ public class PantallaAnadirAlumno extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jTextFieldFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jDateFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonGrabarAlumno)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGrabarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGrabarAlumnoActionPerformed
+
         try {
-            AlumnoBean alumnos = new AlumnoBean();
+            alumnos = new AlumnoBean();
             alumnos.setDNI(jTextFieldDni.getText());
             alumnos.setNombre(jTextFieldNombre.getText());
             alumnos.setApellidos(jTextFieldApellidos.getText());
             alumnos.setDireccion(jTextFieldDireccion.getText());
-            alumnos.setFechaNac(Date.valueOf(jTextFieldFechaNac.getText()));
-            alumnos.addAlumno();
-            JOptionPane.showMessageDialog(null, "Añadido correctamente.", "aviso", JOptionPane.INFORMATION_MESSAGE);
-            jTextFieldDni.setText("");
-            jTextFieldNombre.setText("");
-            jTextFieldApellidos.setText("");
-            jTextFieldDireccion.setText("");
-            jTextFieldFechaNac.setText("");
-        } catch (NullPointerException nulles) {
 
+            int ayo = jDateFechaNac.getCalendar().get(Calendar.YEAR);
+            int mes = jDateFechaNac.getCalendar().get(Calendar.MONTH);
+            int dia = jDateFechaNac.getCalendar().get(Calendar.DAY_OF_MONTH);
+            alumnos.setFechaNac(Date.valueOf(String.valueOf(ayo) + "-" + String.valueOf(mes) + "-" + String.valueOf(dia)));
+            //alumnos.setFechaNac(Date.valueOf("1987-06-05"));
+            alumnos.addBDModificadaListener(this);//oyente de modificacion de la base de datos
+            alumnos.addAlumno();
+
+        } catch (NullPointerException nulles) {
+            System.out.println("fallo");
+            this.dispose();
         } catch (IllegalArgumentException datomal) {
             JOptionPane.showMessageDialog(null, "Datos erroneos", "aviso", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Datos erroneos", "aviso", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
         }
+        this.jTextFieldDni.setText("");
+        this.jTextFieldNombre.setText("");
+        this.jTextFieldApellidos.setText("");
+        this.jTextFieldDireccion.setText("");
+        //JOptionPane.showMessageDialog(null, "Añadido correctamente.", "aviso", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_jButtonGrabarAlumnoActionPerformed
 
     /**
@@ -217,6 +237,7 @@ public class PantallaAnadirAlumno extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonGrabarAlumno;
+    private com.toedter.calendar.JDateChooser jDateFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -226,8 +247,14 @@ public class PantallaAnadirAlumno extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldApellidos;
     private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldDni;
-    private javax.swing.JTextField jTextFieldFechaNac;
     private javax.swing.JTextField jTextFieldNombre;
     private PanelPersonalizado.PanelPeronalizado panelPeronalizado1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void capturarBDModificada(AlumnoBean.BDModificadaEvent ev) {
+        System.out.println("Se ha añadido un elemento a la base de datos");
+        JOptionPane.showMessageDialog(null, "Se ha añadido un elemento a la base de datos", "evento", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }

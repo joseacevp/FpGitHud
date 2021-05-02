@@ -56,5 +56,6 @@ public class AccedeBD implements BDModificadaListener {
 
     public void capturarBDModificada(BDModificadaEvent ev) {
         System.out.println("Se ha añadido un elemento a la base de datos");
+        JOptionPane.showMessageDialog(null, "Se ha añadido un elemento a la base de datos", "evento", JOptionPane.INFORMATION_MESSAGE);
     }
 }

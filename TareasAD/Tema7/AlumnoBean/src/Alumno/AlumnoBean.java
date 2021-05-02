@@ -12,6 +12,8 @@ import java.util.*;
 import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -201,7 +203,7 @@ public class AlumnoBean implements Serializable {
 
                 Alumnos.add(a);
             }
-            
+
             try {
                 Alumno a = new Alumno();
                 a = (Alumno) Alumnos.elementAt(0);
@@ -328,7 +330,7 @@ public class AlumnoBean implements Serializable {
             recargarFilas();
             receptor.capturarBDModificada(new BDModificadaEvent(this));
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "", JOptionPane.ERROR_MESSAGE);
         }
 
     }
