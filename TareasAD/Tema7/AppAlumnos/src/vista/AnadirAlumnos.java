@@ -21,6 +21,7 @@ public class AnadirAlumnos extends javax.swing.JDialog implements AlumnoBean.BDM
     public AnadirAlumnos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
 
     }
 

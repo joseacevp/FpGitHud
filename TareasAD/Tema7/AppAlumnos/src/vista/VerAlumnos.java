@@ -5,7 +5,6 @@
  */
 package vista;
 
-import Alumno.AlumnoBean;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +19,8 @@ public class VerAlumnos extends javax.swing.JDialog {
     public VerAlumnos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        
         this.tablaVerAlumnos.setModel(modelo);
         this.modelo.addColumn("DNI");//estas son las cabeceras o columnas
         this.modelo.addColumn("NOMBRE");
@@ -132,6 +133,7 @@ public class VerAlumnos extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+                
             }
         });
     }

@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author usuario
@@ -253,25 +252,27 @@ public class AlumnoBean implements Serializable {
     /**
      * ******************************************************
      *
-     * @param nDNI DNI A buscar, se carga en las propiedades del componente
+     * @param nDNI DNI A buscar, se carga en las propiedades del componente se
+     * modificada la funcion para que recorra todos los datos de la base de datos
+     * se cambio por  un for
      */
     public void seleccionarDNI(String nDNI) {
         Alumno a = new Alumno();
-        int i = 0;
-
+       
         this.DNI = "";
         this.Nombre = "";
         this.Apellidos = "";
         this.Direccion = "";
-        while (this.DNI.equals("") && i <= Alumnos.size()) {
-            a = (Alumno) Alumnos.elementAt(i);
+        for (int j = 0; j < Alumnos.size(); j++) {
+            a = (Alumno) Alumnos.elementAt(j);
             if (a.DNI.equals(nDNI)) {
                 this.DNI = a.DNI;
                 this.Nombre = a.Nombre;
                 this.Apellidos = a.Apellidos;
                 this.Direccion = a.Direccion;
                 this.FechaNac = a.FechaNac;
-            }
+                System.out.println("DNI ENCONTRADO");
+            }else{System.out.println("NO ENCUENTRA DNI");}
         }
     }
 
@@ -330,11 +331,38 @@ public class AlumnoBean implements Serializable {
             recargarFilas();
             receptor.capturarBDModificada(new BDModificadaEvent(this));
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex, "", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Fallo en la consulta", "", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
+    
+    /**
+     * *****************************************************
+     * Metodo para eliminar un alumno de la base de datos 
+     * pidiendo su DNI
+     * 
+     */
+    public void deleteAlumno(String nDNI) throws ClassNotFoundException {
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "AD07", "AD07");
+            PreparedStatement s = con.prepareStatement("delete alumnos where dni=('"+nDNI+"')");
+
+            s.executeUpdate(); 
+            receptor.capturarBDModificada(new BDModificadaEvent(this));
+            recargarFilas();
+           
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "FALLO AL ELIMINAR EL ALUMNO", "", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    
+    
+    
+    
     /**
      * *****************************************************
      *

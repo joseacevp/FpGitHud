@@ -16,6 +16,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        this.setLocationRelativeTo(null);
         
     }
 
@@ -33,6 +34,7 @@ public class Principal extends javax.swing.JFrame {
         botonVerAlumnos = new javax.swing.JButton();
         botonAnadirAlumno = new javax.swing.JButton();
         botonConsultarAlumno = new javax.swing.JButton();
+        botonEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +61,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        botonEliminar.setText("Eliminar Alumno");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPeronalizado1Layout = new javax.swing.GroupLayout(panelPeronalizado1);
         panelPeronalizado1.setLayout(panelPeronalizado1Layout);
         panelPeronalizado1Layout.setHorizontalGroup(
@@ -66,11 +75,13 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPeronalizado1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(botonVerAlumnos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(botonAnadirAlumno)
-                .addGap(69, 69, 69)
+                .addGap(18, 18, 18)
                 .addComponent(botonConsultarAlumno)
-                .addGap(38, 38, 38))
+                .addGap(18, 18, 18)
+                .addComponent(botonEliminar)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         panelPeronalizado1Layout.setVerticalGroup(
             panelPeronalizado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,7 +90,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(panelPeronalizado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonAnadirAlumno)
                     .addComponent(botonVerAlumnos)
-                    .addComponent(botonConsultarAlumno))
+                    .addComponent(botonConsultarAlumno)
+                    .addComponent(botonEliminar))
                 .addGap(49, 49, 49))
         );
 
@@ -117,6 +129,11 @@ public class Principal extends javax.swing.JFrame {
         ConsultaAlumno consulta = new ConsultaAlumno(this, rootPaneCheckingEnabled);
         consulta.setVisible(true);
     }//GEN-LAST:event_botonConsultarAlumnoActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+      EliminarAlumno eliminar = new EliminarAlumno(this, rootPaneCheckingEnabled);
+        eliminar.setVisible(true);
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,6 +174,7 @@ public class Principal extends javax.swing.JFrame {
     private Alumno.AlumnoBean alumnoBean1;
     private javax.swing.JButton botonAnadirAlumno;
     private javax.swing.JButton botonConsultarAlumno;
+    private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonVerAlumnos;
     private PanelPersonalizado.PanelPeronalizado panelPeronalizado1;
     // End of variables declaration//GEN-END:variables
